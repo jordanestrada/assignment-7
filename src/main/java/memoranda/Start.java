@@ -58,7 +58,8 @@ public class Start {
             new SLThread().start();
         }
         
-        //System.out.println(EventsScheduler.isEventScheduled());
+         //TASK 2-1 SMELL WITHIN A CLASS
+        
         if ((args.length == 0) || (!args[0].equals("-m"))) {
             app = new App(true);
         }

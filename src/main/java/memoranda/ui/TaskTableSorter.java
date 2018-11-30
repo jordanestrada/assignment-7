@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 import javax.swing.tree.*;
 
+import interfaces.IProject;
+import interfaces.Task;
 import main.java.memoranda.*;
 import main.java.memoranda.date.*;
 import main.java.memoranda.util.*;
@@ -57,7 +59,7 @@ public class TaskTableSorter extends TaskTableModel{
 	public Object getChild(Object parent, int index) {
 		Collection c = null;
 		
-		if (parent instanceof Project){
+		if (parent instanceof IProject){
 			if( activeOnly() ) c = CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get());
 			else c = CurrentProject.getTaskList().getTopLevelTasks();
 		}

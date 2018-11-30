@@ -20,6 +20,8 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import interfaces.IHistoryListener;
+import interfaces.IProject;
 import main.java.memoranda.util.Local;
 /**
  * 
@@ -99,15 +101,15 @@ public class History {
         return next != null;
     }
 
-    public static void addHistoryListener(HistoryListener hl) {
+    public static void addHistoryListener(IHistoryListener hl) {
         historyListeners.add(hl);
     }
     
-    public static void removeProjectHistory(Project prj) {
+    public static void removeProjectHistory(IProject prj) {
         Vector list = new Vector();
         String id;
         
-        for (int i = 0; i < _list.size(); i++) {
+        /*for (int i = 0; i < _list.size(); i++) {
             id = (((HistoryItem) _list.elementAt(i)).getProject()).getID();
             if (id.equals(prj.getID())) {
                 list.add(_list.elementAt(i));
@@ -117,7 +119,9 @@ public class History {
                     else prev = null;
                 }
             }
-        }
+            cycloReduce(id, prj, list, i); //COMPLEXITY #3
+
+        }*/
         if (!list.isEmpty()) {
             _list.removeAll(list);
             if (p < 0) {
@@ -129,10 +133,19 @@ public class History {
             historyForwardAction.update();
         }
     }
-
+    
+    //COMPLEXITY #3
+    public static void cycloReduce(String theId, IProject thePrj, Vector theList, int tick){
+        String id = theId;
+        IProject prj = thePrj;
+        Vector list = theList;
+        int i = tick; 
+        
+        
+    }
     private static void notifyListeners(HistoryItem n) {
         for (int i = 0; i < historyListeners.size(); i++)            
-                 ((HistoryListener) historyListeners.get(i)).historyWasRolledTo(n);
+                 ((IHistoryListener) historyListeners.get(i)).historyWasRolledTo(n);
     }
 
     public static HistoryBackAction historyBackAction = new HistoryBackAction();
@@ -161,12 +174,12 @@ public class History {
             if (canRollBack()) {
                 setEnabled(true);
 
-		SimpleDateFormat sdf = new SimpleDateFormat();
-		sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
-		Date date = ((HistoryItem) prev).getDate().getDate();
-		    putValue(
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
+        Date date = ((HistoryItem) prev).getDate().getDate();
+            putValue(
                     Action.SHORT_DESCRIPTION,
-		   Local.getString("Back to") + " " + sdf.format(date));
+           Local.getString("Back to") + " " + sdf.format(date));
 
 //                putValue(Action.SHORT_DESCRIPTION, Local.getString("Back to") + " " + ((HistoryItem) prev).getDate().toString());
             }
@@ -200,14 +213,14 @@ public class History {
             if (canRollForward()) {
                 setEnabled(true);
 
-		SimpleDateFormat sdf = new SimpleDateFormat();
-		sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
-		Date date = ((HistoryItem) next).getDate().getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
+        Date date = ((HistoryItem) next).getDate().getDate();
 
-		    putValue(
+            putValue(
                     Action.SHORT_DESCRIPTION,
                    // Local.getString("Forward to") + " " + ((HistoryItem) next).getDate().toString());
-		   Local.getString("Forward to") + " " + sdf.format(date));
+           Local.getString("Forward to") + " " + sdf.format(date));
             }
             else {
                 setEnabled(false);

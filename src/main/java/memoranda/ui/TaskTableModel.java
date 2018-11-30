@@ -23,6 +23,8 @@ package main.java.memoranda.ui;
 import javax.swing.event.*;
 import javax.swing.tree.TreePath;
 
+import interfaces.IProject;
+import interfaces.Task;
 import main.java.memoranda.*;
 import main.java.memoranda.date.CurrentDate;
 import main.java.memoranda.ui.treetable.AbstractTreeTableModel;
@@ -78,7 +80,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
      *      int)
      */
     public Object getValueAt(Object node, int column) {
-        if (node instanceof Project)
+        if (node instanceof IProject)
             return null;
         Task t = (Task) node;
         switch (column) {
@@ -148,7 +150,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
      * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
      */
     public int getChildCount(Object parent) {
-        if (parent instanceof Project) {
+        if (parent instanceof IProject) {
 		if( activeOnly() ){
 			return CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get()).size();
 		}
@@ -163,7 +165,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
      * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
      */
     public Object getChild(Object parent, int index) {
-        if (parent instanceof Project)
+        if (parent instanceof IProject)
             if( activeOnly() ) return CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get()).toArray()[index];
 	    else return CurrentProject.getTaskList().getTopLevelTasks().toArray()[index];
         Task t = (Task) parent;

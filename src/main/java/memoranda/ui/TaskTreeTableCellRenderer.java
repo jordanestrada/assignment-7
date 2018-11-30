@@ -18,8 +18,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
-import main.java.memoranda.Project;
-import main.java.memoranda.Task;
+import interfaces.IProject;
+import interfaces.Task;
 import main.java.memoranda.date.CurrentDate;
 
 /**
@@ -73,7 +73,7 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
                 tree, value, selected,
                 expanded, leaf, row,
                 hasFocus);
-        if (value instanceof Project)
+        if (value instanceof IProject)
             return empty_panel;
         if (!(value instanceof Task))
             return empty_panel;

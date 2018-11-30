@@ -13,6 +13,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
+import interfaces.IProject;
+import interfaces.Task;
+import interfaces.TaskList;
 import main.java.memoranda.date.CalendarDate;
 import main.java.memoranda.util.Util;
 import nu.xom.Attribute;
@@ -31,7 +34,7 @@ import nu.xom.Nodes;
 /*$Id: TaskListImpl.java,v 1.14 2006/07/03 11:59:19 alexeya Exp $*/
 public class TaskListImpl implements TaskList {
 
-    private Project _project = null;
+    private IProject _project = null;
     private Document _doc = null;
     private Element _root = null;
 	
@@ -44,20 +47,20 @@ public class TaskListImpl implements TaskList {
     /**
      * Constructor for TaskListImpl.
      */
-    public TaskListImpl(Document doc, Project prj) {
+    public TaskListImpl(Document doc, IProject prj) {
         _doc = doc;
         _root = _doc.getRootElement();
         _project = prj;
 		buildElements(_root);
     }
     
-    public TaskListImpl(Project prj) {            
+    public TaskListImpl(IProject prj) {            
             _root = new Element("tasklist");
             _doc = new Document(_root);
             _project = prj;
     }
     
-	public Project getProject() {
+	public IProject getProject() {
 		return _project;
 	}
 		
@@ -187,7 +190,7 @@ public class TaskListImpl implements TaskList {
     }
 
     /**
-     * @see main.java.memoranda.TaskList#getXMLContent()
+     * @see interfaces.TaskList#getXMLContent()
      */	 
     public Document getXMLContent() {
         return _doc;

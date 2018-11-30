@@ -47,6 +47,11 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.tree.*;
 
+import interfaces.INoteList;
+import interfaces.IProject;
+import interfaces.IProjectListener;
+import interfaces.ResourcesList;
+import interfaces.TaskList;
 import main.java.memoranda.*;
 import main.java.memoranda.date.CalendarDate;
 import main.java.memoranda.date.CurrentDate;
@@ -108,8 +113,8 @@ public class TaskTable extends JTable {
                 tableChanged();
             }
         });
-        CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl,
+        CurrentProject.addProjectListener(new IProjectListener() {
+            public void projectChange(IProject p, INoteList nl, TaskList tl,
                     ResourcesList rl) {
             }
 

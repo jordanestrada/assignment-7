@@ -6,7 +6,7 @@
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
-package main.java.memoranda;
+package interfaces;
 import java.util.Collection;
 
 import main.java.memoranda.date.CalendarDate;
@@ -16,7 +16,7 @@ import main.java.memoranda.date.CalendarDate;
 /*$Id: TaskList.java,v 1.8 2005/12/01 08:12:26 alexeya Exp $*/
 public interface TaskList {
 
-	Project getProject();
+	IProject getProject();
     Task getTask(String id);
 
     Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId);

@@ -12,14 +12,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import interfaces.IEvent;
+import interfaces.IProject;
+import interfaces.Task;
+import interfaces.TaskList;
 import main.java.memoranda.CurrentProject;
-import main.java.memoranda.Event;
 import main.java.memoranda.EventsManager;
 import main.java.memoranda.EventsScheduler;
-import main.java.memoranda.Project;
 import main.java.memoranda.ProjectManager;
-import main.java.memoranda.Task;
-import main.java.memoranda.TaskList;
 import main.java.memoranda.date.CalendarDate;
 
 import java.util.Collections;
@@ -46,7 +46,7 @@ public class AgendaGenerator {
 					+ "<tr>\n";
 	static String FOOTER = "</td></tr></table></body></html>";
 
-	static String generateTasksInfo(Project p, CalendarDate date, Collection expandedTasks) {    	    	
+	static String generateTasksInfo(IProject p, CalendarDate date, Collection expandedTasks) {    	    	
 		TaskList tl;
 		if (p.getID().equals(CurrentProject.get().getID())) {
 			tl = CurrentProject.getTaskList();        	
@@ -100,7 +100,7 @@ public class AgendaGenerator {
 	 * @param t
 	 * @param expandedTasks
 	 */
-	private static String expandRecursively(Project p,CalendarDate date, TaskList tl,Task t, Collection expandedTasks, int level) {
+	private static String expandRecursively(IProject p,CalendarDate date, TaskList tl,Task t, Collection expandedTasks, int level) {
 		Util.debug("Expanding task " + t.getText() + " level " + level);
 
 		Collection st = tl.getActiveSubTasks(t.getID(),date);
@@ -133,7 +133,7 @@ public class AgendaGenerator {
 	 * @param t
 	 * @return
 	 */
-	private static String renderTask(Project p, CalendarDate date, TaskList tl, Task t, int level, Collection expandedTasks) {
+	private static String renderTask(IProject p, CalendarDate date, TaskList tl, Task t, int level, Collection expandedTasks) {
 		String s = "";
 
 		int pg = t.getProgress();
@@ -269,7 +269,7 @@ public class AgendaGenerator {
 		return "";
 	}
 
-	static String generateProjectInfo(Project p, CalendarDate date, Collection expandedTasks) {
+	static String generateProjectInfo(IProject p, CalendarDate date, Collection expandedTasks) {
 		String s = "<h2><a href=\"memoranda:project#"
 				+ p.getID()
 				+ "\">"
@@ -293,7 +293,7 @@ public class AgendaGenerator {
 		for (Iterator i = ProjectManager.getActiveProjects().iterator();
 				i.hasNext();
 				) {
-			Project p = (Project) i.next();
+			IProject p = (IProject) i.next();
 			if (!p.getID().equals(CurrentProject.get().getID()))
 				s += generateProjectInfo(p, date, expandedTasks);
 		}
@@ -310,7 +310,7 @@ public class AgendaGenerator {
 		Vector v = (Vector) EventsManager.getEventsForDate(date);
 		int n = 0;
 		for (Iterator i = v.iterator(); i.hasNext();) {
-			Event e = (Event) i.next();
+			IEvent e = (IEvent) i.next();
 			String txt = e.getText();
 			String iurl =
 					main.java.memoranda.ui

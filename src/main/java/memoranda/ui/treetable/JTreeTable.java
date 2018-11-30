@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 
-import main.java.memoranda.Task;
+import interfaces.Task;
 
 import javax.swing.table.*;
 
